@@ -50,8 +50,8 @@ public class MapPropertyDescriptor extends GetterSetterPropertyDescriptor {
   private SoftReference<Method> readMethod;
 
   public MapPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index, String setMethod, String getMethod,
-                               String key, HintContainer srcDeepIndexHintContainer, HintContainer destDeepIndexHintContainer) {
-    super(clazz, fieldName, isIndexed, index, srcDeepIndexHintContainer, destDeepIndexHintContainer);
+          String key, HintContainer destDeepIndexHintContainer) {
+    super(clazz, fieldName, isIndexed, index, destDeepIndexHintContainer);
     this.setMethodName = setMethod;
     this.getMethodName = getMethod;
     this.key = key;

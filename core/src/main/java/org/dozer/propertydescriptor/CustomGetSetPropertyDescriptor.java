@@ -40,8 +40,8 @@ public class CustomGetSetPropertyDescriptor extends JavaBeanPropertyDescriptor {
   private SoftReference<Method> readMethod;
 
   public CustomGetSetPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index, String customSetMethod,
-      String customGetMethod, HintContainer srcDeepIndexHintContainer, HintContainer destDeepIndexHintContainer) {
-    super(clazz, fieldName, isIndexed, index, srcDeepIndexHintContainer, destDeepIndexHintContainer);
+          String customGetMethod, HintContainer destDeepIndexHintContainer) {
+    super(clazz, fieldName, isIndexed, index, destDeepIndexHintContainer);
     this.customSetMethod = customSetMethod;
     this.customGetMethod = customGetMethod;
   }

@@ -103,7 +103,7 @@ public class MapFieldMap extends FieldMap {
         String key = getSrcFieldKey() != null ? getSrcFieldKey() : getDestFieldName();
 
         propDescriptor = new MapPropertyDescriptor(actualType, getSrcFieldName(), isSrcFieldIndexed(), getDestFieldIndex(),
-                setMethod, getMethod, key, getSrcDeepIndexHintContainer(), getDestDeepIndexHintContainer());
+                setMethod, getMethod, key, getDestDeepIndexHintContainer());
       } else {
         propDescriptor = super.getSrcPropertyDescriptor(srcObj.getClass());
       }
@@ -123,10 +123,10 @@ public class MapFieldMap extends FieldMap {
     DozerPropertyDescriptor pd;
     if (isDestFieldAccessible()) {
       pd = new FieldPropertyDescriptor(destObj.getClass(), getDestFieldName(), isDestFieldIndexed(), getDestFieldIndex(),
-          getSrcDeepIndexHintContainer(), getDestDeepIndexHintContainer());
+              getDestDeepIndexHintContainer());
     } else {
       pd = new JavaBeanPropertyDescriptor(destObj.getClass(), getDestFieldName(), isDestFieldIndexed(), getDestFieldIndex(),
-          getSrcDeepIndexHintContainer(), getDestDeepIndexHintContainer());
+          getDestDeepIndexHintContainer());
     }
 
     Class<?> c = pd.getPropertyType();
@@ -152,7 +152,7 @@ public class MapFieldMap extends FieldMap {
     return new PrepareTargetObjectResult(targetObject, new MapPropertyDescriptor(c, getDestFieldName(), isDestFieldIndexed(),
         getDestFieldIndex(), MappingUtils.isSupportedMap(c) ? "put" : getDestFieldMapSetMethod(),
         MappingUtils.isSupportedMap(c) ? "get" : getDestFieldMapGetMethod(), getDestFieldKey() != null ? getDestFieldKey()
-            : getSrcFieldName(), getSrcDeepIndexHintContainer(), getDestDeepIndexHintContainer()));
+            : getSrcFieldName(), getDestDeepIndexHintContainer()));
 
   }
 
@@ -160,11 +160,15 @@ public class MapFieldMap extends FieldMap {
     // Dig out actual Map object by calling getter on top level object    
     DozerPropertyDescriptor pd;
     if ((isDestObj && isDestFieldAccessible()) || (!isDestObj && isSrcFieldAccessible())) {
-      pd = new FieldPropertyDescriptor(targetObj.getClass(), fieldName, isIndexed, index, getSrcDeepIndexHintContainer(),
-          getDestDeepIndexHintContainer());
+      pd = new FieldPropertyDescriptor(targetObj.getClass(), fieldName, isIndexed, index, getDestDeepIndexHintContainer());
     } else {
-      pd = new JavaBeanPropertyDescriptor(targetObj.getClass(), fieldName, isIndexed, index, getSrcDeepIndexHintContainer(),
-          getDestDeepIndexHintContainer());
+      final HintContainer deepIndexHintContainer;
+      if(isDestObj) {
+        deepIndexHintContainer = getDestDeepIndexHintContainer();
+      } else {
+        deepIndexHintContainer = getSrcDeepIndexHintContainer();
+      }
+      pd = new JavaBeanPropertyDescriptor(targetObj.getClass(), fieldName, isIndexed, index, deepIndexHintContainer);
     }
 
     return pd.getPropertyType();

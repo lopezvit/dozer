@@ -49,9 +49,8 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
 
   private Class<?> propertyType;
 
-  public GetterSetterPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index,
-                                        HintContainer srcDeepIndexHintContainer, HintContainer destDeepIndexHintContainer) {
-    super(clazz, fieldName, isIndexed, index, srcDeepIndexHintContainer, destDeepIndexHintContainer);
+  public GetterSetterPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index, HintContainer destDeepIndexHintContainer) {
+    super(clazz, fieldName, isIndexed, index, destDeepIndexHintContainer);
   }
 
   protected abstract Method getWriteMethod() throws NoSuchMethodException;
@@ -81,7 +80,7 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
   public Object getPropertyValue(Object bean) {
     Object result;
     if (MappingUtils.isDeepMapping(fieldName)) {
-      result = getDeepSrcFieldValue(bean);
+      result = getDeepFieldValue(bean);
     } else {
       result = invokeReadMethod(bean);
       if (isIndexed) {
@@ -114,11 +113,11 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
     }
   }
 
-  private Object getDeepSrcFieldValue(Object srcObj) {
+  private Object getDeepFieldValue(Object obj) {
     // follow deep field hierarchy. If any values are null along the way, then return null
-    Object parentObj = srcObj;
+    Object parentObj = obj;
     Object hierarchyValue = parentObj;
-    DeepHierarchyElement[] hierarchy = getDeepFieldHierarchy(srcObj, srcDeepIndexHintContainer);
+    DeepHierarchyElement[] hierarchy = getDeepFieldHierarchy(obj, destDeepIndexHintContainer);
     int size = hierarchy.length;
     for (int i = 0; i < size; i++) {
       DeepHierarchyElement hierarchyElement = hierarchy[i];

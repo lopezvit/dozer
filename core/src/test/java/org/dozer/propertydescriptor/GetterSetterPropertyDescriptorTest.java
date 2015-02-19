@@ -36,7 +36,7 @@ public class GetterSetterPropertyDescriptorTest extends AbstractDozerTest {
     DozerField dozerField = new DozerField("destField", "generic");
 
     this.javaBeanPropertyDescriptor = new JavaBeanPropertyDescriptor(
-            Dest.class, dozerField.getName(), dozerField.isIndexed(), dozerField.getIndex(), null, null);
+            Dest.class, dozerField.getName(), dozerField.isIndexed(), dozerField.getIndex(), null);
   }
 
   @Test

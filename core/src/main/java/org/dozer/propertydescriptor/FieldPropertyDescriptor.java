@@ -38,9 +38,8 @@ public class FieldPropertyDescriptor extends AbstractPropertyDescriptor implemen
 
   private final DozerPropertyDescriptor[] descriptorChain;
 
-  public FieldPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index,
-                                 HintContainer srcDeepIndexHintContainer, HintContainer destDeepIndexHintContainer) {
-    super(clazz, fieldName, isIndexed, index, srcDeepIndexHintContainer, destDeepIndexHintContainer);
+  public FieldPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index, HintContainer destDeepIndexHintContainer) {
+    super(clazz, fieldName, isIndexed, index, destDeepIndexHintContainer);
 
     String[] tokens = fieldName.split(DozerConstants.DEEP_FIELD_DELIMITER_REGEXP);
     descriptorChain = new DozerPropertyDescriptor[tokens.length];

@@ -36,9 +36,8 @@ public class JavaBeanPropertyDescriptor extends GetterSetterPropertyDescriptor {
   private PropertyDescriptor pd;
   private boolean propertyDescriptorsRefreshed;
 
-  public JavaBeanPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index,
-      HintContainer srcDeepIndexHintContainer, HintContainer destDeepIndexHintContainer) {
-    super(clazz, fieldName, isIndexed, index, srcDeepIndexHintContainer, destDeepIndexHintContainer);
+  public JavaBeanPropertyDescriptor(Class<?> clazz, String fieldName, boolean isIndexed, int index, HintContainer destDeepIndexHintContainer) {
+    super(clazz, fieldName, isIndexed, index, destDeepIndexHintContainer);
   }
 
   @Override
@@ -60,7 +59,7 @@ public class JavaBeanPropertyDescriptor extends GetterSetterPropertyDescriptor {
 
   @Override
   protected Method getReadMethod() throws NoSuchMethodException {
-    Method result = getPropertyDescriptor(srcDeepIndexHintContainer).getReadMethod();
+    Method result = getPropertyDescriptor(destDeepIndexHintContainer).getReadMethod();
     if (result == null) {
       result = retryMissingMethod(false);
     }

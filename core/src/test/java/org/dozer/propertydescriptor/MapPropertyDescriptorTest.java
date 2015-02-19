@@ -33,7 +33,7 @@ public class MapPropertyDescriptorTest extends AbstractDozerTest {
 
   @Before
   public void setUp() throws Exception {
-    descriptor = new MapPropertyDescriptor(MapStructure.class, "", false, 0, "set", "get", "key", null, null);
+    descriptor = new MapPropertyDescriptor(MapStructure.class, "", false, 0, "set", "get", "key", null);
   }
 
   @Test
@@ -45,7 +45,7 @@ public class MapPropertyDescriptorTest extends AbstractDozerTest {
 
   @Test(expected=MappingException.class)
   public void testGetWriteMethod_NotFound() throws NoSuchMethodException {
-    descriptor = new MapPropertyDescriptor(MapStructure.class, "", false, 0, "missing_set", "get", "key", null, null);
+    descriptor = new MapPropertyDescriptor(MapStructure.class, "", false, 0, "missing_set", "get", "key", null);
       descriptor.getWriteMethod();
       fail();
   }

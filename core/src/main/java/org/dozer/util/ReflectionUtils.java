@@ -156,9 +156,15 @@ public final class ReflectionUtils {
         if (latestClass.isArray()) {
           latestClass = latestClass.getComponentType();
         } else if (Collection.class.isAssignableFrom(latestClass)) {
-          Class<?> genericType = determineGenericsType(parentClass.getClass(), propDescriptor);
+          Class<?> genericType;
+          if(deepIndexHintContainer != null) {
+            genericType = deepIndexHintContainer.getHint(hintIndex);
+            hintIndex += 1;
+          } else {
+            genericType = determineGenericsType(parentClass.getClass(), propDescriptor);
+          }
 
-          if (genericType == null && deepIndexHintContainer == null) {
+          if (genericType == null) {
             MappingUtils
                 .throwMappingException("Hint(s) or Generics not specified.  Hint(s) or Generics must be specified for deep mapping with indexed field(s). Exception occurred determining deep field hierarchy for Class --> "
                     + parentClass.getName()
@@ -167,12 +173,7 @@ public final class ReflectionUtils {
                     + ".  Unable to determine property descriptor for Class --> "
                     + latestClass.getName() + ", Field Name: " + aFieldName);
           }
-          if (genericType != null) {
-            latestClass = genericType;
-          } else {
-            latestClass = deepIndexHintContainer.getHint(hintIndex);
-            hintIndex += 1;
-          }
+          latestClass = genericType;
         }
       }
       hierarchy[index++] = r;
