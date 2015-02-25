@@ -27,6 +27,7 @@
   </parent>
 
   <artifactId>dozer</artifactId>
+  <version>5.5.1-xplain</version>
   <packaging>jar</packaging>
   <name>Dozer</name>
 
