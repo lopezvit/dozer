@@ -255,7 +255,7 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
       if (!isIndexed) {
         // Check if dest value is already set and is equal to src value. If true, no need to rewrite the dest value
         try {
-          if (getPropertyValue(parentObj) == destFieldValue) {
+          if (getPropertyValue(destObj) == destFieldValue) {
             return;
           }
         } catch (Exception e) {
