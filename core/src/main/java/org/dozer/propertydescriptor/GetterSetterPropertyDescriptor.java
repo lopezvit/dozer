@@ -101,7 +101,7 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
         } else {
           // Check if dest value is already set and is equal to src value. If true, no need to rewrite the dest value
           try {
-            if (getPropertyValue(bean) == value && !isIndexed) {
+            if (getPropertyValue(bean) == value) {
               return;
             }
           } catch (Exception e) {
@@ -253,6 +253,14 @@ public abstract class GetterSetterPropertyDescriptor extends AbstractPropertyDes
 
     if (!type.isPrimitive() || destFieldValue != null) {
       if (!isIndexed) {
+        // Check if dest value is already set and is equal to src value. If true, no need to rewrite the dest value
+        try {
+          if (getPropertyValue(parentObj) == destFieldValue) {
+            return;
+          }
+        } catch (Exception e) {
+          // if we failed to read the value, assume we must write, and continue...
+        }
         Method method = null;
         if (!isCustomSetMethod()) {
           method = pd.getWriteMethod();
